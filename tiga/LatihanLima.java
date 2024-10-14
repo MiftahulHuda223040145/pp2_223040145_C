@@ -1,5 +1,6 @@
 package tiga;
 
+import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.Date;
@@ -21,6 +22,20 @@ public class LatihanLima extends JFrame{
         menu.add(exitItem);
         menuBar.add(menu);
         this.setJMenuBar(menuBar);
+
+        //Label
+        JLabel headerLabel = new JLabel("Form Biodata");
+
+        //Panel
+        JPanel controPanel = new JPanel();
+        controlPanel.setLayout(new FlowLayout());
+
+        JPanel panel = new JPanel();
+        panel.setSize(800, 800);
+        GridBagLayout gbc = new GridBagLayout();
+
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        
 
         // Label dan Field Nama
         JLabel labelInput1 = new JLabel("Input Nama:");
