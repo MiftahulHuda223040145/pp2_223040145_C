@@ -177,7 +177,7 @@ public class peminjamanBank extends JFrame {
         gbc.gridx = 3;
         gbc.gridy = 2;
         gbc.insets = new Insets(0, 10, 30, 0);
-        String[] tujuanPeminjamanOptions = { "Tabungan Biasa", "Deposito", "Tabungan Haji", "Giro" };
+        String[] tujuanPeminjamanOptions = { "Pembelian Aset", "Modal Usaha", "Haji"};
         JList<String> listTujuanPeminjaman = new JList<>(tujuanPeminjamanOptions);
         listTujuanPeminjaman.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         JScrollPane tujuanScrollPane = new JScrollPane(listTujuanPeminjaman);
@@ -210,7 +210,7 @@ public class peminjamanBank extends JFrame {
         gbc.gridx = 3;
         gbc.gridy = 5;
         gbc.insets = new Insets(0, 10, 30, 0);
-        JTextArea textAreaCatatan = new JTextArea(4, 20); // Area teks dengan 4 baris, lebar 20 kolom
+        JTextArea textAreaCatatan = new JTextArea(4, 20);
         textAreaCatatan.setLineWrap(true);
         textAreaCatatan.setWrapStyleWord(true);
         JScrollPane scrollPaneCatatan = new JScrollPane(textAreaCatatan);
@@ -262,7 +262,7 @@ public class peminjamanBank extends JFrame {
 
         //JTable dengan data
         String[] columns = { "No", "Keterangan", "Detail" };
-        model = new DefaultTableModel(columns, 0); // 0 baris awal
+        model = new DefaultTableModel(columns, 0);
         table = new JTable(model);
         JScrollPane tableScrollPane = new JScrollPane(table);
         tableScrollPane.setPreferredSize(new Dimension(780, 150));
