@@ -199,6 +199,23 @@ public class peminjamanBank extends JFrame {
         JButton button = new JButton("Simpan");
         button.setPreferredSize(new Dimension(100, 25));
         panel.add(button, gbc);
+        
+        // Catatan Tambahan
+        gbc.gridx = 3;
+        gbc.gridy = 4;
+        gbc.insets = new Insets(0, 10, 0, 0);
+        JLabel labelCatatan = new JLabel("Catatan Tambahan:");
+        panel.add(labelCatatan, gbc);
+
+        gbc.gridx = 3;
+        gbc.gridy = 5;
+        gbc.insets = new Insets(0, 10, 30, 0);
+        JTextArea textAreaCatatan = new JTextArea(4, 20); // Area teks dengan 4 baris, lebar 20 kolom
+        textAreaCatatan.setLineWrap(true);
+        textAreaCatatan.setWrapStyleWord(true);
+        JScrollPane scrollPaneCatatan = new JScrollPane(textAreaCatatan);
+        panel.add(scrollPaneCatatan, gbc);
+
 
         // Menu Reset dan Exit Actions
         resetItem.addActionListener(new ActionListener() {
@@ -230,7 +247,7 @@ public class peminjamanBank extends JFrame {
             }
         });
         
-        // Data untuk JTable
+        // Data get
         String[][] data = {
             { "Nama", textField1.getText() },
             { "Jenis Kelamin", radioButton1.isSelected() ? "Laki-laki" : "Perempuan" },
@@ -243,7 +260,7 @@ public class peminjamanBank extends JFrame {
             { "Tujuan Peminjaman", listTujuanPeminjaman.getSelectedValue() }
         };
 
-        // Membuat JTable dengan data
+        //JTable dengan data
         String[] columns = { "No", "Keterangan", "Detail" };
         model = new DefaultTableModel(columns, 0); // 0 baris awal
         table = new JTable(model);
@@ -266,6 +283,7 @@ public class peminjamanBank extends JFrame {
                 String tenor = list.getSelectedValue();
                 String penghasilanBulanan = rupiahFormat.format(slider.getValue());
                 String tujuanPeminjaman = listTujuanPeminjaman.getSelectedValue();
+                String catatanTambahan = textAreaCatatan.getText();
 
                 // Memasukkan data ke tabel
                 model.addRow(new Object[] { rowCount++, "Nama", nama });
@@ -277,6 +295,7 @@ public class peminjamanBank extends JFrame {
                 model.addRow(new Object[] { "", "Tenor", tenor });
                 model.addRow(new Object[] { "", "Penghasilan Bulanan", penghasilanBulanan });
                 model.addRow(new Object[] { "", "Tujuan Peminjaman", tujuanPeminjaman });
+                model.addRow(new Object[] { "", "Catatan Tambahan", catatanTambahan });
                 model.addRow(new Object[] { "", "", "" });
             }
         });
