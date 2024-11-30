@@ -1,11 +1,7 @@
 package view.main;  
 
 import java.awt.FlowLayout;  
-import java.awt.event.*;  
-import javax.swing.*;  
-import javax.swing.table.*;  
-import java.util.*;  
-import model.*;  
+import javax.swing.*;   
 import view.jenismember.JenisMemberFrame;  
 import view.member.MemberFrame;  
 import dao.MemberDao;  
@@ -65,5 +61,4 @@ public class MainFrame extends JFrame {
         memberFrame.populateComboJenis();  
         memberFrame.setVisible(true);  
     }  
- 
 }

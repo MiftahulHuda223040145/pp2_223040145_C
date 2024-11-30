@@ -23,6 +23,7 @@ public class JenisMemberDao {
         int result;
         try (SqlSession session = sqlSessionFactory.openSession()){
             result = session.update("mapper.JenisMemberMapper.update", jenisMember);
+            session.commit();
         }
         return result;
     }
@@ -30,6 +31,7 @@ public class JenisMemberDao {
         int result;
         try (SqlSession session = sqlSessionFactory.openSession()){
             result = session.update("mapper.JenisMemberMapper.delete", jenisMember);
+            session.commit();
         }
         return result;
     }

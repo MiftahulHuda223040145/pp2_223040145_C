@@ -2,7 +2,7 @@ package view.jenismember;
 
 import javax.swing.table.AbstractTableModel;  
 import java.util.List;  
-import model.JenisMember;  
+import model.JenisMember;
 
 class JenisMemberTableModel extends AbstractTableModel {  
     private String[] columnNames = {"Nama"};  
@@ -43,4 +43,18 @@ class JenisMemberTableModel extends AbstractTableModel {
         data.add(value);  
         fireTableRowsInserted(data.size() - 1, data.size() - 1);  
     }  
+
+        public JenisMember get(int rowIndex) {
+        return data.get(rowIndex);
+    }
+
+    public void removeRow(int rowIndex) {
+        data.remove(rowIndex);
+        fireTableRowsDeleted(rowIndex, rowIndex);
+    }
+
+    public void update(int rowIndex, JenisMember newValue) {
+        data.set(rowIndex, newValue);
+        fireTableRowsUpdated(rowIndex, rowIndex);
+    }
 }

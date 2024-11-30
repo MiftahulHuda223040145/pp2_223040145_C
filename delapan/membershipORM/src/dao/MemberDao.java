@@ -23,13 +23,18 @@ public class MemberDao {
         int result;
         try (SqlSession session = sqlSessionFactory.openSession()){
             result = session.update("mapper.MemberMapper.update", member);
+            session.commit();
         }
         return result;
     }
-    public int delete(Member member){
-        int result;
-        try (SqlSession session = sqlSessionFactory.openSession()){
+    public int delete(Member member) {
+        int result = 0;
+        try (SqlSession session = sqlSessionFactory.openSession()) {
             result = session.delete("mapper.MemberMapper.delete", member);
+            session.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Error saat delete member: " + e.getMessage());
         }
         return result;
     }

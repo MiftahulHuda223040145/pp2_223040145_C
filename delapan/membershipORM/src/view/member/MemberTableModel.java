@@ -46,4 +46,18 @@ class MemberTableModel extends AbstractTableModel {
         data.add(value);  
         fireTableRowsInserted(data.size() - 1, data.size() - 1);  
     }  
+
+    public Member get(int rowIndex) {
+        return data.get(rowIndex);
+    }
+
+    public void removeRow(int rowIndex) {
+        data.remove(rowIndex);
+        fireTableRowsDeleted(rowIndex, rowIndex);
+    }
+
+    public void update(int rowIndex, Member newValue) {
+        data.set(rowIndex, newValue);
+        fireTableRowsUpdated(rowIndex, rowIndex);
+    }
 }
