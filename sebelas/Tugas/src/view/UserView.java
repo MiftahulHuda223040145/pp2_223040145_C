@@ -39,13 +39,11 @@ public class UserView extends JFrame {
         buttonPanel.add(btnUpdate);
         buttonPanel.add(btnDelete);
 
-        // Panel tengah untuk tabel
         tableModel = new DefaultTableModel(new String[]{"ID", "Name", "NRP", "Email"}, 0);
         userTable.setModel(tableModel);
         userTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         JScrollPane tableScrollPane = new JScrollPane(userTable);
 
-        // Tambahkan listener untuk menampilkan data dari tabel ke form
         userTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
@@ -58,7 +56,6 @@ public class UserView extends JFrame {
             }
         });
 
-        // Panel utama
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
         mainPanel.add(inputPanel, BorderLayout.NORTH);

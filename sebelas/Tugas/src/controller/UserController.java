@@ -22,21 +22,32 @@ public class UserController {
         this.mapper = mapper;
         this.session = session;
 
+        // Tambahkan listener
         this.view.addAddUserListener(new AddUserListener());
         this.view.addRefreshUserListener(new RefreshListener());
         this.view.addUpdateUserListener(new UpdateUserListener());
         this.view.addDeleteUserListener(new DeleteUserListener());
 
-        // Load initial data
+        // Muat data awal
         refreshTable();
     }
 
     private void refreshTable() {
-        List<User> users = mapper.getAllUsers();
-        Object[][] data = users.stream()
-                .map(user -> new Object[]{user.getId(), user.getName(), user.getNrp(), user.getEmail()})
-                .toArray(Object[][]::new);
-        view.setUserList(data);
+        try {
+            List<User> users = mapper.getAllUsers();
+            Object[][] data = users.stream()
+                    .map(user -> new Object[]{
+                        user.getId(),
+                        user.getName(),
+                        user.getNrp(),
+                        user.getEmail()
+                    })
+                    .toArray(Object[][]::new);
+            view.setUserList(data);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(view, "Failed to refresh table: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     class AddUserListener implements ActionListener {
@@ -51,20 +62,19 @@ public class UserController {
                 user.setName(name);
                 user.setNrp(nrp);
                 user.setEmail(email);
-                mapper.insertUser(user);
-                session.commit();
-                JOptionPane.showMessageDialog(view, "User added successfully!");
-                refreshTable();
+                try {
+                    mapper.insertUser(user);
+                    session.commit();
+                    JOptionPane.showMessageDialog(view, "User added successfully!");
+                    refreshTable(); // Langsung refresh tabel
+                } catch (Exception ex) {
+                    session.rollback();
+                    JOptionPane.showMessageDialog(view, "Error adding user: " + ex.getMessage());
+                    ex.printStackTrace();
+                }
             } else {
                 JOptionPane.showMessageDialog(view, "Please fill in all fields.");
             }
-        }
-    }
-
-    class RefreshListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            refreshTable();
         }
     }
 
@@ -77,24 +87,31 @@ public class UserController {
                 return;
             }
 
-            int id = (int) view.getValueAt(selectedRow, 0);
             String name = view.getNameInput();
             String nrp = view.getNRPInput();
             String email = view.getEmailInput();
 
             if (!name.isEmpty() && !nrp.isEmpty() && !email.isEmpty()) {
-                User user = new User();
-                user.setId(id);
-                user.setName(name);
-                user.setNrp(nrp);
-                user.setEmail(email);
+                try {
+                    int id = (int) view.getValueAt(selectedRow, 0);
+                    User user = new User();
+                    user.setId(id);
+                    user.setName(name);
+                    user.setNrp(nrp);
+                    user.setEmail(email);
 
-                mapper.update(user);
-                session.commit();
-                JOptionPane.showMessageDialog(view, "User updated successfully!");
-                refreshTable();
+                    mapper.update(user);
+                    session.commit();
+
+                    JOptionPane.showMessageDialog(view, "User updated successfully!");
+                    refreshTable();
+                } catch (Exception ex) {
+                    session.rollback();
+                    JOptionPane.showMessageDialog(view, "Error updating user: " + ex.getMessage());
+                    ex.printStackTrace();
+                }
             } else {
-                JOptionPane.showMessageDialog(view, "Please fill in all fields.");
+                JOptionPane.showMessageDialog(view, "Please fill in all fields");
             }
         }
     }
@@ -108,12 +125,27 @@ public class UserController {
                 return;
             }
 
-            int id = (int) view.getValueAt(selectedRow, 0);
-            mapper.delete(new User() {{
-                setId(id);
-            }});
-            session.commit();
-            JOptionPane.showMessageDialog(view, "User deleted successfully!");
+            try {
+                int id = (int) view.getValueAt(selectedRow, 0);
+                User user = new User();
+                user.setId(id);
+
+                mapper.delete(user);
+                session.commit();
+
+                JOptionPane.showMessageDialog(view, "User deleted successfully!");
+                refreshTable();
+            } catch (Exception ex) {
+                session.rollback();
+                JOptionPane.showMessageDialog(view, "Error deleting user: " + ex.getMessage());
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    class RefreshListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
             refreshTable();
         }
     }
